@@ -13,23 +13,18 @@ use App\Models\Issue;
 
 use App\Http\Middleware\CheckRole;
 
-Route::get('/', function () {
-    $issues = Issue::with('articles')->get();
-    return view('welcome', compact('issues'));
-});
-
 Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::get('/', function () {
         $issues = Issue::with('articles')->get();
         return view('welcome', compact('issues'));
     });
+;
+    Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
+    Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
 
-    //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
-    
 });
 
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
-    Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
