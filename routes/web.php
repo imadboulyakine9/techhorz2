@@ -9,11 +9,23 @@ use App\Http\Controllers\BrowsingHistoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\IssueController;
+use App\Models\Issue;
 
 use App\Http\Middleware\CheckRole;
 
 Route::get('/', function () {
-    return view('welcome');
+    $issues = Issue::with('articles')->get();
+    return view('welcome', compact('issues'));
+});
+
+Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
+    Route::get('/', function () {
+        $issues = Issue::with('articles')->get();
+        return view('welcome', compact('issues'));
+    });
+
+    //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
+    
 });
 
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
@@ -23,18 +35,18 @@ Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
     Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
     Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
     Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
+
+    Route::get('/admin/dashboard', function () { return view('admin.dashboard'); })->name('admin.dashboard');
+    Route::get('/admin/users', function () { return view('admin.users'); })->name('admin.users');
+
 });
 
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
     //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
 });
 
-Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
-    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-    //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
-    
-});
 
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/themes/{theme_id}/articles', [ThemeController::class, 'getArticlesByTheme'])->name('themes.articles');
 
 Route::middleware('auth')->group(function () {

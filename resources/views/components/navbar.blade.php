@@ -1,12 +1,19 @@
 <nav class="navbar">
     <div class="logo">
-        <a href="">MyApp</a>
+        <a href="{{ url('/') }}">MyApp</a>
     </div>
     <div class="nav-links">
         @guest
             <a href="{{ route('login') }}">Login</a>
             <a href="{{ route('register') }}">Register</a>
         @else
+            @if (Auth::user()->role === 'user')
+                <a href="{{ route('browsingHistory.index') }}">History</a>
+                <a href="{{ route('themes.index') }}">Themes</a>
+            @elseif (Auth::user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a href="{{ route('admin.users') }}">Users</a>
+            @endif
             <a href="{{ route('profile.edit') }}">Profile</a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

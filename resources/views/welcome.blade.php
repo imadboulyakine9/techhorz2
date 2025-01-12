@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body >
+<body>
     <x-navbar />
     <div class="container">
         <header class="header">
@@ -23,6 +23,26 @@
                 @endguest
             </nav>
         </header>
+
+        @auth
+            @if (Auth::user()->role === 'user')
+                <div class="issues">
+                    <h2>Issues</h2>
+                    @foreach ($issues as $issue)
+                        <div class="issue">
+                            <h3>{{ $issue->title }}</h3>
+                            <p>{{ $issue->description }}</p>
+                            <h4>Articles:</h4>
+                            <ul>
+                                @foreach ($issue->articles as $article)
+                                    <li>{{ $article->title }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @endauth
     </div>
 </body>
 </html>
