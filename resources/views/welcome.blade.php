@@ -6,48 +6,30 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8fafc;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            text-align: center;
-        }
-        .header {
-            margin-bottom: 20px;
-        }
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .nav-links a:hover {
-            background-color: #e2e8f0;
-        }
-    </style>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="font-sans text-gray-900 antialiased">
+    <x-navbar />
     <div class="container">
         <header class="header">
             <h1>{{ config('app.name', 'Laravel') }}</h1>
             <nav class="nav-links">
-                <a href="{{ route('login') }}">Log in</a>
-                <a href="{{ route('register') }}">Register</a>
+                @guest
+                    <a href="{{ route('login') }}">Log in</a>
+                    <a href="{{ route('register') }}">Register</a>
+                @else
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                            Logout
+                        </a>
+                    </form>
+                @endguest
             </nav>
         </header>
     </div>

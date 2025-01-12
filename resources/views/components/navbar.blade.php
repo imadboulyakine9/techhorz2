@@ -3,8 +3,17 @@
         <a href="{{ route('dashboard') }}">MyApp</a>
     </div>
     <div class="nav-links">
-        <a href="{{ route('login') }}">Login</a>
-        <a href="{{ route('register') }}">Register</a>
+        @guest
+            <a href="{{ route('login') }}">Login</a>
+            <a href="{{ route('register') }}">Register</a>
+        @else
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                    Logout
+                </a>
+            </form>
+        @endguest
     </div>
 </nav>
 
