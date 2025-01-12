@@ -41,4 +41,10 @@ public function store(Request $request)
         $issues = Issue::with('articles')->get();
         return view('issues.index', compact('issues'));
     }
+
+    public function getArticlesByIssue($issue_id)
+    {
+        $issue = Issue::with('articles')->findOrFail($issue_id);
+        return view('issues.articles', compact('issue'));
+    }
 }

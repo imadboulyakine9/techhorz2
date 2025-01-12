@@ -14,7 +14,7 @@ use App\Models\Issue;
 use App\Http\Middleware\CheckRole;
 
 
-//get all themes whit description /themes
+//get all themes whit description /themes 
 //there is also a link of articles of this theme /themes/{theme_id}/articles
 //get all issues then he will have a link to the articles(image) /issues + /issues/{issue_id}/articles
 //there is also /articles to get all articles
@@ -22,13 +22,15 @@ use App\Http\Middleware\CheckRole;
 
 Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
 Route::get('/themes/{theme_id}/articles', [ThemeController::class, 'getArticlesByTheme'])->name('themes.articles');
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article_id}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
+Route::get('/issues/{issue_id}/articles', [IssueController::class, 'getArticlesByIssue'])->name('issues.articles');
 
 
 Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::get('/', function () {
-        $issues = Issue::with('articles')->get();
-        return view('welcome', compact('issues'));
+
     });
     // he have a personal space "welcome where he can see all the themes and the issues"
     // he can manage his subscriptions one page
@@ -46,7 +48,7 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
+    //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
     Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
     Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
 
