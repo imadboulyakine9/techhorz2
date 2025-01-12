@@ -9,7 +9,7 @@
         @else
             @if (Auth::user()->role === 'user')
                 <a href="{{ route('browsingHistory.index') }}">History</a>
-                <a href="{{ route('themes.index') }}">Themes</a>
+                <a href="{{ route('user.theme') }}">Themes</a>
             @elseif (Auth::user()->role === 'admin')
                 <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                 <a href="{{ route('admin.users') }}">Users</a>

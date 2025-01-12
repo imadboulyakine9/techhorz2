@@ -12,11 +12,8 @@ class ThemeController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
         $themes = Theme::all();
-        $subscriptions = Subscription::where('user_id', $user->id)->pluck('theme_id')->toArray();
-
-    return view('themes.index', compact('themes', 'subscriptions'));
+        return view('themes.index', compact('themes'));
     }
 
     public function getArticlesByTheme($theme_id)
@@ -35,7 +32,7 @@ class ThemeController extends Controller
             'theme_id' => $theme_id,
         ]);
 
-        return redirect()->route('themes.index')->with('status', 'Subscribed to theme successfully');
+        return redirect()->route('user.theme')->with('status', 'Subscribed to theme successfully');
     }
 
     public function unsubscribe(Request $request, $theme_id)
@@ -46,9 +43,9 @@ class ThemeController extends Controller
 
         if ($subscription) {
             $subscription->delete();
-            return redirect()->route('themes.index')->with('status', 'Unsubscribed from theme successfully');
+            return redirect()->route('user.theme')->with('status', 'Unsubscribed from theme successfully');
         }
 
-        return redirect()->route('themes.index')->with('error', 'Subscription not found');
+        return redirect()->route('user.theme')->with('error', 'Subscription not found');
     }
 }
