@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Articles</title>
+    <title>Issues</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,14 +16,14 @@
             max-width: 800px;
             margin: 0 auto;
         }
-        .article {
+        .issue {
             border-bottom: 1px solid #e5e7eb;
             padding: 20px 0;
         }
-        .article h2 {
+        .issue h2 {
             margin: 0 0 10px;
         }
-        .article p {
+        .issue p {
             margin: 0;
         }
     </style>
@@ -31,11 +31,17 @@
 <body>
     <x-navbar />
     <div class="container">
-        <h1>Articles</h1>
-        @foreach ($articles as $article)
-            <div class="article">
-                <h2>{{ $article->title }}</h2>
-                <p>{{ $article->content }}</p>
+        <h1>Issues</h1>
+        @foreach ($issues as $issue)
+            <div class="issue">
+                <h2>{{ $issue->title }}</h2>
+                <p>{{ $issue->description }}</p>
+                <h3>Articles:</h3>
+                <ul>
+                    @foreach ($issue->articles as $article)
+                        <li>{{ $article->title }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endforeach
     </div>

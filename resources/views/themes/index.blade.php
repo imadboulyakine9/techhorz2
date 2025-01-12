@@ -4,6 +4,7 @@
     <title>Themes</title>
 </head>
 <body>
+    <x-navbar />
     <h1>Themes</h1>
     <ul>
         @foreach ($themes as $theme)
