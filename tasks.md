@@ -1,0 +1,1 @@
+# remove all tail wind css
