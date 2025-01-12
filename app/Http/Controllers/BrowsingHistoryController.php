@@ -14,6 +14,6 @@ class BrowsingHistoryController extends Controller
         $user = Auth::user();
         $history = BrowsingHistory::where('user_id', $user->id)->with('article')->orderBy('viewed_at', 'desc')->get();
 
-        return view('browsingHistory.index', compact('history'));
+        return view('history.index', compact('history'));
     }
 }

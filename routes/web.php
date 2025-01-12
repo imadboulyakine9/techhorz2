@@ -30,8 +30,11 @@ Route::get('/issues/{issue_id}/articles', [IssueController::class, 'getArticlesB
 
 Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::get('/', function () {
-
+        $issues = Issue::with('articles')->get();
+        return view('welcome', compact('issues'));
     });
+    Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('history.index');
+    //Route::post('/themes/{theme_id}/subscribe', [SubscriptionController::class, 'subscribe'])->name('themes.user');
     // he have a personal space "welcome where he can see all the themes and the issues"
     // he can manage his subscriptions one page
     // he can manage his history whit filters /browsing-history and /browsing-history?theme_id=1 "for example"

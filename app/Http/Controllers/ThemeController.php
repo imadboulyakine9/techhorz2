@@ -32,7 +32,7 @@ class ThemeController extends Controller
             'theme_id' => $theme_id,
         ]);
 
-        return redirect()->route('user.theme')->with('status', 'Subscribed to theme successfully');
+        return redirect()->route('themes.user')->with('status', 'Subscribed to theme successfully');
     }
 
     public function unsubscribe(Request $request, $theme_id)
@@ -43,9 +43,9 @@ class ThemeController extends Controller
 
         if ($subscription) {
             $subscription->delete();
-            return redirect()->route('user.theme')->with('status', 'Unsubscribed from theme successfully');
+            return redirect()->route('themes.user')->with('status', 'Unsubscribed from theme successfully');
         }
 
-        return redirect()->route('user.theme')->with('error', 'Subscription not found');
+        return redirect()->route('themes.user')->with('error', 'Subscription not found');
     }
 }
