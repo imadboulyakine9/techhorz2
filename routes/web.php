@@ -1,9 +1,10 @@
 <?php
-
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\SubscriptionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,4 +23,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
 Route::get('/themes/{theme_id}/articles', [ThemeController::class, 'getArticlesByTheme'])->name('themes.articles');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/subscribe/{theme_id}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+    Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
+});
+
 require __DIR__.'/auth.php';
