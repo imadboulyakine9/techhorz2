@@ -1,6 +1,6 @@
 <nav class="navbar">
     <div class="logo">
-        <a href="{{ route('dashboard') }}">MyApp</a>
+        <a href="">MyApp</a>
     </div>
     <div class="nav-links">
         @guest

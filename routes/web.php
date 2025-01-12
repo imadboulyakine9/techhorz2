@@ -9,22 +9,32 @@ use App\Http\Controllers\BrowsingHistoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RateController;
 
+use App\Http\Middleware\CheckRole;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
+    Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
+});
+
+Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
+    //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
+});
+
+Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+});
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    /*Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');*/
 });
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
+//Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
 Route::get('/themes/{theme_id}/articles', [ThemeController::class, 'getArticlesByTheme'])->name('themes.articles');
 
 Route::middleware('auth')->group(function () {
