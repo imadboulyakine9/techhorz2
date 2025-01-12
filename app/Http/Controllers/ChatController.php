@@ -36,4 +36,17 @@ class ChatController extends Controller
 
         return view('comments.index', compact('comments'));
     }
+
+    public function deleteComment($comment_id)
+    {
+        $comment = Chat::find($comment_id);
+
+        if ($comment->user_id != Auth::id()) {
+            return redirect()->back()->with('error', 'You are not authorized to delete this comment');
+        }
+
+        $comment->delete();
+
+        return redirect()->back()->with('status', 'Comment deleted successfully');
+    }
 }

@@ -13,6 +13,30 @@
             <img src="{{ $article->image_url }}" alt="{{ $article->title }}" style="max-width: 100%; height: auto;">
         @endif
         <p>{{ $article->content }}</p>
+
+        @auth
+            @if (Auth::user()->role === 'user')
+                <div class="comments">
+                    <h2>Comments</h2>
+                    <ul>
+                        @foreach ($article->comments as $comment)
+                            <li>
+                                <strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <form method="POST" action="{{ route('comments.add', $article->id) }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="comment">Add a comment:</label>
+                            <textarea id="comment" name="comment" rows="4" required></textarea>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            @endif
+        @endauth
     </div>
 </body>
 </html>

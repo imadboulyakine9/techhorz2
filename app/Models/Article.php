@@ -31,6 +31,12 @@ class Article extends Model
     {
         return $this->belongsTo(Theme::class, 'theme_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Chat::class);
+    }
+    
     public function issue()
 {
     return $this->belongsTo(Issue::class);
