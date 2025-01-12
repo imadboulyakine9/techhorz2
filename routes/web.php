@@ -6,6 +6,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\BrowsingHistoryController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/subscribe/{theme_id}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
     Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('browsingHistory.index');
+    Route::post('/articles/{article_id}/comments', [ChatController::class, 'addComment'])->name('comments.add');
+    Route::get('/articles/{article_id}/comments', [ChatController::class, 'getComments'])->name('comments.index');
+    Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
+    Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');
 });
 
 require __DIR__.'/auth.php';
