@@ -33,7 +33,12 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
         $issues = Issue::with('articles')->get();
         return view('welcome', compact('issues'));
     });
+
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('history.index');
+    Route::post('/articles/{article_id}/comments', [ChatController::class, 'addComment'])->name('comments.add');
+    Route::get('/articles/{article_id}/comments', [ChatController::class, 'getComments'])->name('comments.index');
+    Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
+    Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');
     //Route::post('/themes/{theme_id}/subscribe', [SubscriptionController::class, 'subscribe'])->name('themes.user');
     // he have a personal space "welcome where he can see all the themes and the issues"
     // he can manage his subscriptions one page
@@ -49,6 +54,7 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
 });
 
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
@@ -68,14 +74,12 @@ Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function (
 //Route::get('/themes/{theme_id}/articles', [ThemeController::class, 'getArticlesByTheme'])->name('themes.articles');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
     /*Route::post('/subscribe/{theme_id}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
     Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('browsingHistory.index');
-    Route::post('/articles/{article_id}/comments', [ChatController::class, 'addComment'])->name('comments.add');
-    Route::get('/articles/{article_id}/comments', [ChatController::class, 'getComments'])->name('comments.index');
-    Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
-    Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');*/
+    ;*/
 });
 
 require __DIR__.'/auth.php';

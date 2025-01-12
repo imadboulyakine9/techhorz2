@@ -44,7 +44,7 @@
     <x-navbar />
     <div class="container">
         <h1>Edit Profile</h1>
-        <form method="POST" action="{{ route('profile.update') }}">
+        <form method="POST" action="">
             @csrf
             @method('PATCH')
 

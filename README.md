@@ -25,3 +25,13 @@ Important:
                  (Ne pas oublier d'activer le partage du dossier partagé avec : maitkbir@uae.ac.ma et yelyusufi@uae.ac.ma)  
                o Rapport (discussion qui porte sur les choix faits et les fonctionnalités prises en compte). 
                o Remise avant le dimanche 19/1/2025.
+
+
+## Installation
+composer install
+copy .env 
+php artisan migrate:fresh 
+php artisan db:seed
+
+## Run
+php artisan serve
