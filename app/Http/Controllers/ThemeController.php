@@ -12,8 +12,11 @@ class ThemeController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $themes = Theme::all();
-        return view('themes.index', compact('themes'));
+        $subscriptions = Subscription::where('user_id', $user->id)->pluck('theme_id')->toArray();
+
+    return view('themes.index', compact('themes', 'subscriptions'));
     }
 
     public function getArticlesByTheme($theme_id)

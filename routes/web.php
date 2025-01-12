@@ -19,9 +19,10 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
         return view('welcome', compact('issues'));
     });
 ;
-    Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
-    Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
-
+Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
+Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
+Route::post('/themes/subscribe/{theme_id}', [ThemeController::class, 'subscribe'])->name('themes.subscribe');
+Route::post('/themes/unsubscribe/{theme_id}', [ThemeController::class, 'unsubscribe'])->name('themes.unsubscribe');
 });
 
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
