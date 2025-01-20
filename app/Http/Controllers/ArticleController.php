@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Theme;
 use App\Models\BrowsingHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -37,26 +38,39 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        $themes = Theme::all();
+        return view('articles.create', compact('themes'));
     }
 
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+        'theme_id' => 'required|exists:themes,id',
+        'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for file upload
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $article = Article::create($request->all());
-        return redirect()->route('articles.show', $article->id)
-            ->with('success', 'Article created successfully');
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
     }
+
+    $imagePath = $request->file('image_url') ? $request->file('image_url')->store('images') : null;
+
+    Article::create([
+        'title' => $request->title,
+        'content' => $request->content,
+        'author_id' => Auth::id(),
+        'theme_id' => $request->theme_id,
+        'image_url' => $imagePath, // Store the file path
+        'is_published' => false,
+    ]);
+
+    return redirect()->route('articles.index')
+        ->with('success', 'Article created successfully');
+}
 
     public function edit($id)
     {

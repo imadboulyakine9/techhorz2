@@ -38,11 +38,13 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::post('/themes/{theme_id}/subscribe', [SubscriptionController::class, 'subscribe'])->name('themes.subscribe');
     Route::post('/themes/{theme_id}/unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('themes.unsubscribe');
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('history.index');
-    
+
     Route::post('/articles/{article_id}/comments', [ChatController::class, 'addComment'])->name('comments.add');
     Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
     Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');
-    //Route::post('/themes/{theme_id}/subscribe', [SubscriptionController::class, 'subscribe'])->name('themes.user');
+
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     // he have a personal space "welcome where he can see all the themes and the issues"
     // he can manage his subscriptions one page
     // he can manage his history whit filters /browsing-history and /browsing-history?theme_id=1 "for example"
