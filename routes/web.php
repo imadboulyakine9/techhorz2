@@ -38,6 +38,7 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::post('/themes/{theme_id}/subscribe', [SubscriptionController::class, 'subscribe'])->name('themes.subscribe');
     Route::post('/themes/{theme_id}/unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('themes.unsubscribe');
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('history.index');
+    
     Route::post('/articles/{article_id}/comments', [ChatController::class, 'addComment'])->name('comments.add');
     Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
     Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');
