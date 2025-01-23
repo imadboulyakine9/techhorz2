@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Theme;
+use App\Models\Rate;
 use App\Models\BrowsingHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,10 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::findOrFail($id);
+
+        $userRating = Rate::where('article_id', $id)
+                      ->where('user_id', Auth::id())
+                      ->first();
 
         // Log browsing history
         if (Auth::check()) {

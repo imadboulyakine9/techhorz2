@@ -34,10 +34,12 @@ class RateController extends Controller
         return redirect()->back()->with('status', 'Article rated successfully');
     }
 
-    public function getArticleRating($article_id)
-    {
-        $rating = Rate::where('article_id', $article_id)->avg('rating');
+    public function getUserRating($article_id)
+{
+    $userRating = Rate::where('article_id', $article_id)
+                      ->where('user_id', Auth::id())
+                      ->first();
 
-        return view('articles.rating', compact('rating'));
-    }
+    return $userRating ? $userRating->rating : null;
+}
 }
