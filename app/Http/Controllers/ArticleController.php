@@ -26,8 +26,8 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         $userRating = Rate::where('article_id', $id)
-                      ->where('user_id', Auth::id())
-                      ->first();
+            ->where('user_id', Auth::id())
+            ->first();
 
         // Log browsing history
         if (Auth::check()) {
@@ -48,34 +48,34 @@ class ArticleController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-        'theme_id' => 'required|exists:themes,id',
-        'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for file upload
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'theme_id' => 'required|exists:themes,id',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for file upload
+        ]);
 
-    if ($validator->fails()) {
-        return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $imagePath = $request->file('image_url') ? $request->file('image_url')->store('images') : null;
+
+        Article::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'author_id' => Auth::id(),
+            'theme_id' => $request->theme_id,
+            'image_url' => $imagePath, // Store the file path
+            'is_published' => false,
+        ]);
+
+        return redirect()->route('articles.index')
+            ->with('success', 'Article created successfully');
     }
-
-    $imagePath = $request->file('image_url') ? $request->file('image_url')->store('images') : null;
-
-    Article::create([
-        'title' => $request->title,
-        'content' => $request->content,
-        'author_id' => Auth::id(),
-        'theme_id' => $request->theme_id,
-        'image_url' => $imagePath, // Store the file path
-        'is_published' => false,
-    ]);
-
-    return redirect()->route('articles.index')
-        ->with('success', 'Article created successfully');
-}
 
     public function edit($id)
     {
@@ -110,5 +110,16 @@ class ArticleController extends Controller
 
         return redirect()->route('articles.index')
             ->with('success', 'Article deleted successfully');
+    }
+    public function getArticlesForUser()
+    {
+        $articles = Article::all();
+        return view('foryou', compact('articles'));
+    }
+    public function getUserArticles()
+    {
+        $userId = Auth::id();
+        $articles = Article::where('author_id', $userId)->get();
+        return view('studio', compact('articles'));
     }
 }

@@ -27,14 +27,12 @@ Route::get('/articles/{article_id}', [ArticleController::class, 'show'])->name('
 Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
 Route::get('/issues/{issue_id}/articles', [IssueController::class, 'getArticlesByIssue'])->name('issues.articles');
 
-
 Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::get('/', function () {
         $issues = Issue::with('articles')->get();
         return view('welcome', compact('issues'));
     });
 
-    
     Route::post('/themes/{theme_id}/subscribe', [SubscriptionController::class, 'subscribe'])->name('themes.subscribe');
     Route::post('/themes/{theme_id}/unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('themes.unsubscribe');
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('history.index');
@@ -43,19 +41,11 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
     Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');
 
+    Route::get('/foryou' , [ArticleController::class, 'getArticlesForUser'])->name('foryou');
+    Route::get('/studio' , [ArticleController::class, 'getUserArticles'])->name('studio');
+
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
-    // he have a personal space "welcome where he can see all the themes and the issues"
-    // he can manage his subscriptions one page
-    // he can manage his history whit filters /browsing-history and /browsing-history?theme_id=1 "for example"
-    // he can post an article /articles/create
-    // he can see status of his articles /articles/my-articles
-    // he can see his profile /profile //Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit'); one page can edit update and see
-    // he can rate an article /articles/{article_id}/rate and comment /articles/{article_id}/comments
-
-;
-//Route::get('/themes', [ThemeController::class, 'index'])->name('user.theme');
-//Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('browsingHistory.index');
 });
 
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
