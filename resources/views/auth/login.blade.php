@@ -24,9 +24,19 @@
         max-width: 400px;
         margin: 50px auto;
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid #070a0c;
         border-radius: 8px;
-        background-color: #fff;
+        background-color: #040c28;
+        color:#fff;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-image: url('/images/Tech1.png'); /* Fixed path */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
     }
     .alert {
         color: red;
