@@ -1,7 +1,7 @@
 <!-- filepath: /home/imad/Projects/PHP/project1/techhorz2/resources/views/components/articlecard.blade.php -->
 <div class="card">
     @if ($article->image_url)
-        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="fixed-size-image">
+        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="responsive-image">
     @endif
     <h2>{{ $article->title }}</h2>
     <a href="{{ route('articles.show', $article->id) }}" class="btn">See more</a>
@@ -18,11 +18,13 @@
     }
     .card img {
         border-radius: 8px;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
     }
-    .fixed-size-image {
-        width: 400px; /* Set the desired width */
-        height: 400px; /* Set the desired height */
-        object-fit: cover; /* Ensure the image covers the area without distortion */
+    .responsive-image {
+        max-width: 100%;
+        height: auto;
     }
     .card h2 {
         margin-top: 10px;
