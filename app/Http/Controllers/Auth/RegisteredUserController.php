@@ -46,4 +46,25 @@ class RegisteredUserController extends Controller
 
         return redirect()->route('welcome');
     }
+
+    public function blockUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['is_blocked' => true]);
+        return back()->with('success', 'User blocked successfully');
+    }
+
+    public function unblockUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['is_blocked' => false]);
+        return back()->with('success', 'User unblocked successfully');
+    }
+
+    public function updateUserRole(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['role' => $request->role]);
+        return back()->with('success', 'User role updated successfully');
+    }
 }

@@ -9,7 +9,20 @@ use App\Http\Controllers\BrowsingHistoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\IssueController;
+
+/* use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatsController; */
+
+use App\Models\User;
 use App\Models\Issue;
+use App\Models\Article;
+use App\Models\Theme;
+use App\Models\Subscription;
+use App\Models\BrowsingHistory;
+use App\Models\Chat;
+use App\Models\Rate;
+
+
 
 use App\Http\Middleware\CheckRole;
 
@@ -48,7 +61,8 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 });
 
-Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
+/**   -------------------------------------------Admin routes----------------------------------*/ 
+Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -56,10 +70,63 @@ Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
     //Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
     //Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
 
-    Route::get('/admin/dashboard', function () { return view('admin.dashboard'); })->name('admin.dashboard');
-    Route::get('/admin/users', function () { return view('admin.users'); })->name('admin.users');
+    Route::get('/dashboard', function () {
+        $stats=[
+            'users' => \App\Models\User::where('role', 'user')->count(),
+            'managers' => \App\Models\User::where('role', 'theme_manager')->count(),
+            'issues' => \App\Models\Issue::count(),
+            'themes' => \App\Models\Theme::count(),
+            'articles' => \App\Models\Article::count(),  
+        ];
+
+        return view('admin.dashboard' , ['stats' => $stats]); 
+    
+    })->name('admin.dashboard');
+
+
+    Route::get('/users', function () {
+        
+        $users = \App\Models\User::all();
+        return view('admin.users', compact('users')); 
+    
+    })->name('admin.users');
+
+    // Update namespace for RegisteredUserController
+    Route::put('/users/{user}/block', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'blockUser'])
+    ->name('admin.users.block');
+    Route::put('/users/{user}/unblock', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'unblockUser'])
+    ->name('admin.users.unblock');
+    Route::put('/users/{user}/role', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'updateUserRole'])
+    ->name('admin.users.role');
+
+    // Issues management
+    Route::get('/issues', [IssueController::class, 'index'])->name('admin.issues.index');
+
+/*     Route::put('/users/{user}/block', [UserController::class, 'block'])->name('admin.users.block');
+    Route::put('/users/{user}/unblock', [UserController::class, 'unblock'])->name('admin.users.unblock');
+    Route::put('/users/{user}/role', [UserController::class, 'updateRole'])->name('admin.users.role');
+
+    // Issues management
+    Route::get('/issues', [IssueController::class, 'index'])->name('admin.issues.index');
+    Route::post('/issues', [IssueController::class, 'store'])->name('admin.issues.store');
+    Route::put('/issues/{issue}/publish', [IssueController::class, 'publish'])->name('admin.issues.publish');
+    Route::put('/issues/{issue}/unpublish', [IssueController::class, 'unpublish'])->name('admin.issues.unpublish');
+    Route::put('/issues/{issue}/toggle', [IssueController::class, 'toggle'])->name('admin.issues.toggle');
+
+    // Articles management
+    Route::put('/articles/{article}/toggle', [ArticleController::class, 'toggle'])->name('admin.articles.toggle');
+    Route::put('/articles/{article}/activate', [ArticleController::class, 'activate'])->name('admin.articles.activate');
+    Route::put('/articles/{article}/deactivate', [ArticleController::class, 'deactivate'])->name('admin.articles.deactivate');
+
+    // Statistics
+    Route::get('/stats/users', [StatsController::class, 'users'])->name('admin.stats.users');
+    Route::get('/stats/managers', [StatsController::class, 'managers'])->name('admin.stats.managers');
+    Route::get('/stats/issues', [StatsController::class, 'issues'])->name('admin.stats.issues');
+    Route::get('/stats/themes', [StatsController::class, 'themes'])->name('admin.stats.themes');
+    Route::get('/stats/articles', [StatsController::class, 'articles'])->name('admin.stats.articles'); */
 });
 
+/**   ---------------------------------------End of Admin routes----------------------------------*/ 
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
     //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
 });

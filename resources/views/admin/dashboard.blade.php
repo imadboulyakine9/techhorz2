@@ -1,59 +1,53 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
+    <title>Admin Dashboard</title>
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Manage Users</h1>
-        <nav>
-            <ul>
-                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.users') }}">Manage Users</a></li>
-                <li>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                            Logout
-                        </a>
-                    </form>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2>User List</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>
-                            <a href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
-                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </main>
+    <x-navbar />
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <p>{{ $stats['users'] }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Theme Managers</h3>
+                <p>{{ $stats['managers'] }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Issues</h3>
+                <p>{{ $stats['issues'] }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Themes</h3>
+                <p>{{ $stats['themes'] }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Articles</h3>
+                <p>{{ $stats['articles'] }}</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
