@@ -5,8 +5,9 @@
 <style>
     .btn {
         padding: 10px 20px;
-        background-color: #000;
+        background-color: #8fadfa;
         color: #fff;
+        font-weight:bold;
         border: none;
         border-radius: 50px;
         cursor: pointer;
