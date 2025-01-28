@@ -35,38 +35,26 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::post('/articles/{article_id}/comments', [ChatController::class, 'addComment'])->name('comments.add');
     Route::post('/articles/{article_id}/rate', [RateController::class, 'rateArticle'])->name('articles.rate');
     Route::get('/articles/{article_id}/rating', [RateController::class, 'getArticleRating'])->name('articles.rating');
-    Route::get('/studio' , [ArticleController::class, 'getUserArticles'])->name('studio');
+    Route::get('/studio', [ArticleController::class, 'getUserArticles'])->name('studio');
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 });
 
+// Routes for authenticated users with 'admin' role
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
-    //Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
-    //Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
-
     Route::get('/admin/dashboard', function () { return view('admin.dashboard'); })->name('admin.dashboard');
     Route::get('/admin/users', function () { return view('admin.users'); })->name('admin.users');
 });
 
+// Routes for authenticated users with 'theme_manager' role
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
-    //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
+    // Add routes for theme manager here
 });
 
-
-//Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-//Route::get('/themes/{theme_id}/articles', [ThemeController::class, 'getArticlesByTheme'])->name('themes.articles');
-
+// Routes for authenticated users
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-
-    /*Route::post('/subscribe/{theme_id}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
-    Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
-    Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('browsingHistory.index');
-    ;*/
+    // Add other authenticated routes here
 });
 
 require __DIR__.'/auth.php';
