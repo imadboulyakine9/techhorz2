@@ -1,6 +1,6 @@
 <style>
     .navbar {
-        background-color: #000000; /* Background color from the palette */
+        background-color:rgb(13, 13, 30); /* Background color from the palette */
         height: 10vh; /* 10% of the viewport height */
         width: 100%; /* Full width */
         padding: 10px 20px;
@@ -12,7 +12,8 @@
     .navbar .logo a {
         font-family: 'Times New Roman', Times, serif;
         font-size: 24px;
-        color: #F4DFC8; /* Text color from the palette */
+        color: #BCBCBC; /* Text color from the palette */
+        font-weight: bold;
     }
     .navbar .nav-links {
         display: flex;
@@ -23,7 +24,7 @@
         margin: 0;
     }
     .navbar a {
-        color: #F4EAE0; /* Link color from the palette */
+        color: #BCBCBC; /* Link color from the palette */
         text-decoration: none;
     }
     .navbar a:hover {

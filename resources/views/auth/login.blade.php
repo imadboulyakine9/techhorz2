@@ -33,7 +33,7 @@
         margin: 0;
         padding: 0;
         min-height: 100vh;
-        background-image: url('/images/Tech1.png'); /* Fixed path */
+        background-image: url('/images/Tech1copie.png'); /* Fixed path */
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
