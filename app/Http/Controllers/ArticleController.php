@@ -124,24 +124,25 @@ class ArticleController extends Controller
         return view('studio', compact('articles'));
     }
     public function getRecommendedArticles()
-    {
-        $userId = Auth::id();
+{
+    $userId = Auth::id();
 
-        // Fetch articles based on user browsing history and subscriptions
-        $browsingHistoryArticles = BrowsingHistory::where('user_id', $userId)
-            ->with('article')
-            ->get()
-            ->pluck('article');
+    // Fetch articles based on user browsing history
+    $browsingHistoryArticles = BrowsingHistory::where('user_id', $userId)
+        ->with('article')
+        ->get()
+        ->pluck('article');
 
-        $subscriptionArticles = Subscription::where('user_id', $userId)
-            ->with('articles')
-            ->get()
-            ->pluck('articles')
-            ->flatten();
+    // Fetch articles based on user subscriptions
+    $subscriptionArticles = Subscription::where('user_id', $userId)
+        ->with('theme.articles')
+        ->get()
+        ->pluck('theme.articles')
+        ->flatten();
 
-        // Merge and remove duplicates
-        $recommendedArticles = $browsingHistoryArticles->merge($subscriptionArticles)->unique('id');
+    // Merge and remove duplicates
+    $recommendedArticles = $browsingHistoryArticles->merge($subscriptionArticles)->unique('id');
 
-        return view('foryou', compact('recommendedArticles'));
-    }
+    return view('foryou', compact('recommendedArticles'));
+}
 }
