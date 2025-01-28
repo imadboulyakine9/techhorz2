@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
         $user2 = User::create([
             'name' => 'Author 2',
             'email' => 'author2@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'role' => 'admin'
         ]);
 
         // Insert themes
