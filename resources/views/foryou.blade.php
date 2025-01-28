@@ -1,12 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles For You</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recommended Articles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Articles For You</h1>
-    <p>Welcome to the articles page. Here you will find articles curated just for you.</p>
+    <x-navbar />
+    <div class="container">
+        @foreach ($recommendedArticles as $article)
+            <x-articlecard :article="$article" />
+        @endforeach
+    </div>
 </body>
 </html>

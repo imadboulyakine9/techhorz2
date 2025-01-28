@@ -1,4 +1,4 @@
-<!-- resources/views/components/articlecard.blade.php -->
+<!-- filepath: /home/imad/Projects/PHP/project1/techhorz2/resources/views/components/articlecard.blade.php -->
 <div class="card">
     @if ($article->image_url)
         <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="fixed-size-image">
