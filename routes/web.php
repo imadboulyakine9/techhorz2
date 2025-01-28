@@ -98,6 +98,10 @@ Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(f
     ->name('admin.users.unblock');
     Route::put('/users/{user}/role', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'updateUserRole'])
     ->name('admin.users.role');
+    Route::get('/users/{user}/edit', function($user) {
+        $user = \App\Models\User::findOrFail($user);
+        return view('admin.users.edit', compact('user'));
+    })->name('admin.users.edit');
 
     // Issues management
     Route::get('/issues', [IssueController::class, 'index'])->name('admin.issues.index');
