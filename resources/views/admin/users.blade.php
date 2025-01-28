@@ -34,41 +34,30 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
+                    @if($user->role !== 'admin')
                         <form action="{{ route('admin.users.role', $user->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <select name="role" onchange="this.form.submit()">
                                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
                                 <option value="theme_manager" {{ $user->role === 'theme_manager' ? 'selected' : '' }}>Theme Manager</option>
-                                <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
                             </select>
                         </form>
+                        @else
+                        <span> Administrator </span>
+                        @endif
                     </td>
                     <td>{{ $user->is_blocked ? 'Blocked' : 'Active' }}</td>
                     <td class="actions">
-                        <!-- @if($user->is_blocked)
-                            <form action="{{ route('admin.users.unblock', $user->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <button class="btn btn-unblock">Unblock</button>
-                            </form>
-                        @else
-                            <form action="{{ route('admin.users.block', $user->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <button class="btn btn-block">Block</button>
-                            </form>
-                        @endif
-                    </td> -->
-                <form action="{{ route('admin.users.role', $user->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <select name="role" onchange="this.form.submit()">
-                        <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
-                        <option value="theme_manager" {{ $user->role === 'theme_manager' ? 'selected' : '' }}>Theme Manager</option>
-                        <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
-                    </select>
-                </form>
+                        @if($user->role !== 'admin')
+                    <form action="{{ route('admin.users.role', $user->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <select name="role" onchange="this.form.submit()">
+                            <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
+                            <option value="theme_manager" {{ $user->role === 'theme_manager' ? 'selected' : '' }}>Theme Manager</option>
+                        </select>
+                    </form>
 
                     @if($user->is_blocked)
                         <form action="{{ route('admin.users.unblock', $user->id) }}" method="POST">
@@ -82,6 +71,10 @@
                             @method('PUT')
                             <button class="btn btn-block">Block</button>
                         </form>
+                    @endif
+
+                    @else
+                    <span> Admin user </span>
                     @endif
                 </td>
                 </tr>
