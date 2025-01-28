@@ -13,30 +13,31 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
-        .article {
-            border-bottom: 1px solid #e5e7eb;
-            padding: 20px 0;
+        @media (min-width: 1200px) {
+            .container {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
-        .article h2 {
-            margin: 0 0 10px;
-        }
-        .article p {
-            margin: 0;
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
         }
     </style>
 </head>
 <body>
     <x-navbar />
     <div class="container">
-        <h1>Articles</h1>
         @foreach ($articles as $article)
-            <div class="article">
-                <h2>{{ $article->title }}</h2>
-                <p>{{ $article->content }}</p>
-            </div>
+            <x-articlecard :article="$article" />
         @endforeach
     </div>
 </body>

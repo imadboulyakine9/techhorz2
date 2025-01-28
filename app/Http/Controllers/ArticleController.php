@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Theme;
 use App\Models\Rate;
+use App\Models\Subscription;
 use App\Models\BrowsingHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -111,15 +112,37 @@ class ArticleController extends Controller
         return redirect()->route('articles.index')
             ->with('success', 'Article deleted successfully');
     }
-    public function getArticlesForUser()
+    /*public function getArticlesForUser()
     {
         $articles = Article::all();
         return view('foryou', compact('articles'));
-    }
+    }*/
     public function getUserArticles()
     {
         $userId = Auth::id();
         $articles = Article::where('author_id', $userId)->get();
         return view('studio', compact('articles'));
     }
+    public function getRecommendedArticles()
+{
+    $userId = Auth::id();
+
+    // Fetch articles based on user browsing history
+    $browsingHistoryArticles = BrowsingHistory::where('user_id', $userId)
+        ->with('article')
+        ->get()
+        ->pluck('article');
+
+    // Fetch articles based on user subscriptions
+    $subscriptionArticles = Subscription::where('user_id', $userId)
+        ->with('theme.articles')
+        ->get()
+        ->pluck('theme.articles')
+        ->flatten();
+
+    // Merge and remove duplicates
+    $recommendedArticles = $browsingHistoryArticles->merge($subscriptionArticles)->unique('id');
+
+    return view('foryou', compact('recommendedArticles'));
+}
 }

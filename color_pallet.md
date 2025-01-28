@@ -1,0 +1,4 @@
+black : 000000
+F4DFC8
+F4EAE0
+FAF6F0
