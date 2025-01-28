@@ -53,8 +53,8 @@ Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     //Route::get('/issues', [IssueController::class, 'index'])->name('issues.index');
-    Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
-    Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
+    //Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
+    //Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
 
     Route::get('/admin/dashboard', function () { return view('admin.dashboard'); })->name('admin.dashboard');
     Route::get('/admin/users', function () { return view('admin.users'); })->name('admin.users');

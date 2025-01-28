@@ -43,6 +43,18 @@
                 </div>
             @endif
         @endauth
+
+        @auth
+            @if (Auth::user()->role === 'admin')
+                <div>
+                    <h2>Admin Dashboard</h2>
+                    <ul>
+                        <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ route('admin.users') }}">Manage Users</a></li>
+                    </ul>
+                </div>
+            @endif
+        @endauth
     </div>
 </body>
 </html>
