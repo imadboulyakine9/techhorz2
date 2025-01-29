@@ -44,17 +44,26 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
 Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
     Route::get('/admin/dashboard', function () { return view('admin.dashboard'); })->name('admin.dashboard');
     Route::get('/admin/users', function () { return view('admin.users'); })->name('admin.users');
+    Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
+    Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
+    Route::patch('/issues/{issue_id}', [IssueController::class, 'update'])->name('issues.update');
+    Route::delete('/issues/{issue_id}', [IssueController::class, 'destroy'])->name('issues.destroy');
+    Route::post('/articles/{article_id}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
+    Route::post('/articles/{article_id}/unpublish', [ArticleController::class, 'unpublish'])->name('articles.unpublish');
 });
 
 // Routes for authenticated users with 'theme_manager' role
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
-    // Add routes for theme manager here
+    Route::get('/theme-manager', [ThemeController::class, 'index'])->name('theme_manager.dashboard');
+    Route::get('/theme-manager/articles', [ArticleController::class, 'index'])->name('theme_manager.articles');
+    Route::post('/theme-manager/articles/{article_id}/approve', [ArticleController::class, 'approve'])->name('theme_manager.articles.approve');
+    Route::post('/theme-manager/articles/{article_id}/reject', [ArticleController::class, 'reject'])->name('theme_manager.articles.reject');
 });
 
 // Routes for authenticated users
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Add other authenticated routes here
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 require __DIR__.'/auth.php';

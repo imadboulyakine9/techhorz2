@@ -53,7 +53,8 @@ Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
 });
 
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
-    //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
+    Route::get('/theme-manager', [ThemeController::class, 'index'])->name('theme_manager.dashboard');
+    Route::post('/theme-manager/update', [ThemeController::class, 'update'])->name('theme_manager.update');
 });
 
 
