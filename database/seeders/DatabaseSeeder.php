@@ -39,16 +39,24 @@ class DatabaseSeeder extends Seeder
 
         $user1 = User::create([
             'name' => 'Author 1',
-            'email' => 'author1@example.com',
+            'email' => 'user@example.com',
             'password' => bcrypt('password')
         ]);
 
         $user2 = User::create([
             'name' => 'Author 2',
-            'email' => 'author2@example.com',
+            'email' => 'admin@example.com',
             'password' => bcrypt('password'),
             'role' => 'admin'
         ]);
+
+        $user3 = User::create([
+            'name' => 'Author 3',
+            'email' => 'manager@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'theme_manager'
+        ]);
+
 
         // Insert themes
         DB::table('themes')->insert([
@@ -57,12 +65,14 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Description for theme 1',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'manager_id' => $user1->id,
             ],
             [
                 'name' => 'News',
                 'description' => 'Description for theme 2',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'manager_id' => $user3->id,
             ],
         ]);
 
@@ -110,4 +120,4 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
     }
-} 
+}

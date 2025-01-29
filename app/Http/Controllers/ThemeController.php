@@ -19,8 +19,9 @@ class ThemeController extends Controller
     */
     public function index()
     {
-        $themes = Theme::all();
-        return view('theme_manager.dashboard', compact('themes'));
+        $user = Auth::user();
+        $theme = Theme::where('manager_id', $user->id)->first();
+        return view('theme_manager.dashboard', compact('theme'));
     }
 
     public function update(Request $request)

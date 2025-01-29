@@ -12,10 +12,16 @@ class Theme extends Model
     protected $fillable = [
         'name',
         'description',
+        'image_url',
     ];
 
     public function articles()
     {
         return $this->hasMany(Article::class, 'theme_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
     }
 }

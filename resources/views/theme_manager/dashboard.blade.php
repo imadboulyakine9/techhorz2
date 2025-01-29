@@ -1,4 +1,3 @@
-<!-- filepath: /home/imad/Projects/PHP/project1/techhorz2/resources/views/theme_manager/dashboard.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,54 +114,58 @@
         <a href="#">Statistics</a>
     </div>
     <div class="container">
-        <div class="card">
-            <h2>Theme Details</h2>
-            <form method="POST" action="{{ route('theme_manager.update') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="theme-name">Theme Name</label>
-                    <input type="text" id="theme-name" name="name" value="{{ $theme->name }}">
-                </div>
-                <div class="form-group">
-                    <label for="theme-description">Theme Description</label>
-                    <textarea id="theme-description" name="description">{{ $theme->description }}</textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Update Theme</button>
-                </div>
-            </form>
-        </div>
-        <div class="card">
-            <h2>Articles</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($theme->articles as $article)
+        @if($theme)
+            <div class="card">
+                <h2>Theme Details</h2>
+                <form method="POST" action="{{ route('theme_manager.update') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label for="theme-name">Theme Name</label>
+                        <input type="text" id="theme-name" name="name" value="{{ $theme->name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="theme-description">Theme Description</label>
+                        <textarea id="theme-description" name="description">{{ $theme->description }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Update Theme</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card">
+                <h2>Articles</h2>
+                <table>
+                    <thead>
                         <tr>
-                            <td>{{ $article->title }}</td>
-                            <td>{{ $article->author }}</td>
-                            <td>{{ $article->status }}</td>
-                            <td>
-                                <a href="#">Edit</a>
-                                <a href="#">Delete</a>
-                            </td>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="card">
-            <h2>Statistics</h2>
-            <p>Number of Articles: {{ $theme->articles->count() }}</p>
-            <p>Number of Subscribers: {{ $theme->subscriptions->count() }}</p>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach ($theme->articles as $article)
+                            <tr>
+                                <td>{{ $article->title }}</td>
+                                <td>{{ $article->author->name }}</td>
+                                <td>{{ $article->is_published ? 'Published' : 'Unpublished' }}</td>
+                                <td>
+                                    <a href="#">Edit</a>
+                                    <a href="#">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h2>Statistics</h2>
+                <p>Number of Articles: {{ $theme->articles->count() }}</p>
+                <p>Number of Subscribers: {{ $theme->subscriptions->count() }}</p>
+            </div>
+        @else
+            <p>No theme assigned to you.</p>
+        @endif
     </div>
 </body>
 </html>

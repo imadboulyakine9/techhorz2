@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subscription::class);
     }
+
+    public function managedThemes()
+    {
+        return $this->hasMany(Theme::class, 'manager_id');
+    }
 }
