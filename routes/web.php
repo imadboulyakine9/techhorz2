@@ -68,7 +68,7 @@ Route::get('/' , function(){
         ]
     ]);
 }) -> name('welcome');
-/**   -------------------------------------------Admin routes----------------------------------*/ 
+/**   --------------------------------Admin routes----------------------------------*/ 
 Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

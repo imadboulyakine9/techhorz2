@@ -55,19 +55,34 @@
         .form-group button:hover {
             background-color: #0056b3;
         }
+        .container{
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+        }
+        .content{
+            font-size: 20px;
+            padding: 10px;
+        }
+
     </style>
 </head>
 <body>
     <x-navbar />
+    <h1>{{ $article->title }}</h1>
     <div class="container">
-        <h1>{{ $article->title }}</h1>
+        <div>
+            <h2>Information</h2>
         <p><strong>Author:</strong> {{ $article->author->name }}</p>
         <p><strong>Theme:</strong> {{ $article->theme->name }}</p>
         @if ($article->image_url)
-            <img src="{{ $article->image_url }}" alt="{{ $article->title }}" style="max-width: 100%; height: auto;">
+            <img src="{{ $article->image_url }}" alt="{{ $article->title }}" style="max-width: 86%; height: auto;">
         @endif
-        <p>{{ $article->content }}</p>
-
+        </div>
+        <div> 
+        <h2>Content</h2>
+            <p>{{ $article->content }}</p>
+        </div class="content">
         @auth
             @if (Auth::user()->role === 'user')
                 <div class="rating">
@@ -91,8 +106,7 @@
                 </div>
 
                 <div class="average-rating">
-                    <h2>Your Rating: {{ $userRating ?? 'Not rated yet' }}</h2>
-                    <h2>Average Rating: {{ round($article->ratings->avg('rating'), 2) }}</h2>
+                <h2>Average Rating: {{ $article->ratings->avg('rating') ? round($article->ratings->avg('rating'), 1) : 'No ratings yet' }} / 5</h2>
                 </div>
 
                 <div class="comments">

@@ -25,11 +25,8 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::findOrFail($id);
-
-        $userRating = Rate::where('article_id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
-
+        $userRating = null;
+        
         // Log browsing history
         if (Auth::check()) {
             BrowsingHistory::create([
@@ -37,9 +34,13 @@ class ArticleController extends Controller
                 'article_id' => $id,
                 'viewed_at' => now(),
             ]);
+            $userRating = Rate::where('article_id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+        $userRating = $userRating ? $userRating->rating : null;
         }
 
-        return view('articles.show', compact('article'));
+        return view('articles.show', compact('article' , 'userRating'));
     }
 
     public function create()
