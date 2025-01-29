@@ -16,7 +16,7 @@
 
             .container{
                 color :#fff;
-                max-width: 800px;
+                width: 800px;
                 margin: 50px auto;
                 padding: 20px;
                 padding-top:10px;
@@ -24,8 +24,12 @@
                 border-radius: 8px;
                 background-color: #6082B6;
                 margin-top: 200px;
-                position: relative;
-                top:117px;
+                /* position: relative;
+                top:117px; */
+                position: fixed;
+                top: 16%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
 
             form{
