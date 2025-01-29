@@ -40,7 +40,7 @@
                             @method('PUT')
                             <select name="role" onchange="this.form.submit()">
                                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
-                                <option value="theme_manager" {{ $user->role === 'theme_manager' ? 'selected' : '' }}>Theme Manager</option>
+                                <option value="manager" {{ $user->role === 'manager' ? 'selected' : '' }}>Theme Manager</option>
                             </select>
                         </form>
                         @else
@@ -55,7 +55,7 @@
                         @method('PUT')
                         <select name="role" onchange="this.form.submit()">
                             <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
-                            <option value="theme_manager" {{ $user->role === 'theme_manager' ? 'selected' : '' }}>Theme Manager</option>
+                            <option value="manager" {{ $user->role === 'manager' ? 'selected' : '' }}>Theme Manager</option>
                         </select>
                     </form>
 

@@ -117,7 +117,7 @@
         @if($theme)
             <div class="card">
                 <h2>Theme Details</h2>
-                <form method="POST" action="{{ route('theme_manager.update') }}">
+                <form method="POST" action="{{ route('manager.update') }}">
                     @csrf
                     <div class="form-group">
                         <label for="theme-name">Theme Name</label>

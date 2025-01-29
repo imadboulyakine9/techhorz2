@@ -52,12 +52,12 @@ Route::middleware(['auth', CheckRole::class.':admin'])->group(function () {
     Route::post('/articles/{article_id}/unpublish', [ArticleController::class, 'unpublish'])->name('articles.unpublish');
 });
 
-// Routes for authenticated users with 'theme_manager' role
-Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
-    Route::get('/theme-manager', [ThemeController::class, 'index'])->name('theme_manager.dashboard');
-    Route::get('/theme-manager/articles', [ArticleController::class, 'index'])->name('theme_manager.articles');
-    Route::post('/theme-manager/articles/{article_id}/approve', [ArticleController::class, 'approve'])->name('theme_manager.articles.approve');
-    Route::post('/theme-manager/articles/{article_id}/reject', [ArticleController::class, 'reject'])->name('theme_manager.articles.reject');
+// Routes for authenticated users with 'manager' role
+Route::middleware(['auth', CheckRole::class.':manager'])->group(function () {
+    Route::get('/theme-manager', [ThemeController::class, 'managerDashboard'])->name('manager.dashboard');
+    Route::get('/theme-manager/articles', [ArticleController::class, 'managerDashboard'])->name('manager.articles');
+    Route::post('/theme-manager/articles/{article_id}/approve', [ArticleController::class, 'approve'])->name('manager.articles.approve');
+    Route::post('/theme-manager/articles/{article_id}/reject', [ArticleController::class, 'reject'])->name('manager.articles.reject');
 });
 
 // Routes for authenticated users
