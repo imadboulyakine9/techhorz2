@@ -20,4 +20,16 @@
         border-radius: 8px;
         background-color: #fff;
     }
+
+
+         body{
+             margin: 0;
+             padding: 0;
+             min-height: 100vh;
+             background-image: url('/images/TechRegister.png');
+             background-size: cover;
+             background-position: center;
+             background-attachment: fixed;
+         }
+            
 </style>

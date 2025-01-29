@@ -87,6 +87,8 @@
         }
         .header{
             color : #fff;
+            font-family: 'Times New Roman', Times, serif;
+            opacity:0.8;
         }
     </style>
 
@@ -95,8 +97,7 @@
     <x-navbar />
     <div class="container">
         <header class="header">
-            <h1>Themes</h1>
-            
+            <h2>Suggested Themes</h2>   
         </header>
 
         @auth
@@ -132,6 +133,38 @@
             
             @endif
         @endauth
+
+        @auth
+            @if (Auth::user()->role === 'manager')
+            <style>
+            body{
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background-image: url('/images/TechManager.png');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+            }
+            </style>
+                
+            @endif
+
+            @else
+            <style>
+            body{
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background-image: url('/images/TechGuest.png');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+            }
+            </style>
+        @endauth
+
+        
     </div>
 
     <div class="themes-carousel">
