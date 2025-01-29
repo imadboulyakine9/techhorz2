@@ -60,7 +60,7 @@ Route::get('/' , function(){
         'themes' => $themes ,
         'stats' => [
             'users' => \App\Models\User::where('role', 'user')->count(),
-           'managers' => \App\Models\User::where('role', 'theme_manager')->count(),
+           'managers' => \App\Models\User::where('role', 'manager')->count(),
             'articles' => \App\Models\Article::count(),
             'issues' => \App\Models\Issue::count(),
             'themes' => \App\Models\Theme::count(),
@@ -80,7 +80,7 @@ Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(f
     Route::get('/dashboard', function () {
         $stats=[
             'users' => \App\Models\User::where('role', 'user')->count(),
-            'managers' => \App\Models\User::where('role', 'theme_manager')->count(),
+            'managers' => \App\Models\User::where('role', 'manager')->count(),
             'issues' => \App\Models\Issue::count(),
             'themes' => \App\Models\Theme::count(),
             'articles' => \App\Models\Article::count(),  
@@ -138,9 +138,9 @@ Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(f
 });
 
 /**   ------------------------------End of Admin routes----------------------------------*/ 
-Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
+Route::middleware(['auth', CheckRole::class.':manager'])->group(function () {
     Route::get('/manager/dashboard', [ThemeController::class, 'index'])->name('manager.dashboard');
-    Route::post('/theme-manager/update', [ThemeController::class, 'update'])->name('theme_manager.update');
+    Route::post('/theme-manager/update', [ThemeController::class, 'update'])->name('manager.update');
 });
 
 

@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Author 3',
             'email' => 'manager@example.com',
             'password' => bcrypt('password'),
-            'role' => 'theme_manager'
+            'role' => 'manager'
         ]);
 
 
@@ -63,52 +63,58 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Development',
                 'description' => 'Description for theme 1',
+                'manager_id' => $user1->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'manager_id' => $user1->id,
             ],
             [
                 'name' => 'Intelligence Artificielle',
                 'description' => 'Explorez les avancées en IA, machine learning et deep learning.',
+                'manager_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Internet des Objets',
                 'description' => 'Découvrez les innovations en IoT et objets connectés.',
+                'manager_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Cybersécurité',
                 'description' => 'Actualités et analyses sur la sécurité informatique.',
+                'manager_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Réalité Virtuelle et Augmentée',
                 'description' => 'Les dernières innovations en VR/AR.',
+                'manager_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Cloud Computing',
                 'description' => 'Technologies cloud et solutions d\'hébergement.',
+                'manager_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Blockchain',
                 'description' => 'Cryptomonnaies et technologies blockchain.',
+                'manager_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'News',
                 'description' => 'Description for theme 2',
+                'manager_id' => $user3->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'manager_id' => $user3->id,
             ],
         ]);
 
