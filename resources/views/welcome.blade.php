@@ -85,6 +85,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .header{
+            color : #fff;
+        }
     </style>
 
 </head>
@@ -92,20 +95,8 @@
     <x-navbar />
     <div class="container">
         <header class="header">
-            <h1>{{ config('app.name', 'Laravel') }}</h1>
-            <nav class="nav-links">
-                @guest
-                    <a href="{{ route('login') }}">Log in</a>
-                    <a href="{{ route('register') }}">Register</a>
-                @else
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                            Logout
-                        </a>
-                    </form>
-                @endguest
-            </nav>
+            <h1>Themes</h1>
+            
         </header>
 
         @auth
@@ -139,13 +130,6 @@
             }
             </style>
             
-                <div>
-                    <h2>Admin Dashboard</h2>
-                    <ul>
-                        <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                        <li><a href="{{ route('admin.users') }}">Manage Users</a></li>
-                    </ul>
-                </div>
             @endif
         @endauth
     </div>
@@ -155,7 +139,44 @@
             <button class="carousel-control next" onclick="nextSlide()">&#10095;</button>
             @foreach ($themes as $theme)
                 <div class="theme-slide">
-                    <img src="{{ asset($theme->image_path) }}" alt="{{ $theme->name }}">
+                    
+                    @switch($theme->id)
+                        @case(1)
+                        <img src="{{ asset('images/Development.jpg')}}" alt="Development">
+                        @break
+
+                        @case(2)
+                        <img src="{{ asset('images/Ai.jpg')}}" alt="Ai">
+                        @break
+
+                        @case(3)
+                        <img src="{{ asset('images/IOT.jpg')}}" alt="IOT">
+                        @break
+
+                        @case(4)
+                        <img src="{{ asset('images/cyber.webp')}}" alt="Cyber">
+                        @break
+
+                        @case(5)
+                        <img src="{{ asset('images/virtual_int.png')}}" alt="virtual_int">
+                        @break
+
+                        @case(6)
+                        <img src="{{ asset('images/cloud.webp')}}" alt="Cloud">
+                        @break
+
+                        @case(7)
+                        <img src="{{ asset('images/blockchain.avif')}}" alt="blockchain">
+                        @break
+
+                        @case(8)
+                        <img src="{{ asset('images/news.webp')}}" alt="News">
+                        @break
+
+                        @default
+                        <img src="{{ asset('images/default.jpg')}}" alt="default">
+
+                    @endswitch
                     <div class="theme-info">
                         <div class="theme-title">{{ $theme->name }}</div>
                         <div class="theme-description">{{ $theme->description }}</div>
