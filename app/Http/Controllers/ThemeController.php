@@ -10,10 +10,27 @@ use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
+    /*
     public function index()
     {
         $themes = Theme::all();
         return view('themes.index', compact('themes'));
+    }
+    */
+    public function index()
+    {
+        $user = Auth::user();
+        $theme = Theme::where('manager_id', $user->id)->first();
+        return view('theme_manager.dashboard', compact('theme'));
+    }
+
+    public function update(Request $request)
+    {
+        $theme = Theme::first(); // Assuming there's only one theme
+
+        $theme->update($request->all());
+
+        return redirect()->route('theme_manager.dashboard')->with('status', 'Theme updated successfully');
     }
 
     public function getArticlesByTheme($theme_id)

@@ -12,6 +12,7 @@ class Theme extends Model
     protected $fillable = [
         'name',
         'description',
+        'image_url',
     ];
 
     public function articles()
@@ -19,15 +20,9 @@ class Theme extends Model
         return $this->hasMany(Article::class, 'theme_id');
     }
 
-    // Relationship with subscriptions
-    public function subscriptions()
+    public function manager()
     {
-        return $this->hasMany(Subscription::class, 'theme_id');
-    }
-
-    // Check if the current user is subscribed to this theme
-    public function isSubscribed($user_id)
-    {
-        return $this->subscriptions()->where('user_id', $user_id)->exists();
+        return $this->belongsTo(User::class, 'manager_id');
     }
 }
+

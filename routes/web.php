@@ -139,7 +139,8 @@ Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(f
 
 /**   ------------------------------End of Admin routes----------------------------------*/ 
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
-    //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
+    Route::get('/manager/dashboard', [ThemeController::class, 'index'])->name('manager.dashboard');
+    Route::post('/theme-manager/update', [ThemeController::class, 'update'])->name('theme_manager.update');
 });
 
 

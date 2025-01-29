@@ -44,6 +44,8 @@
         @elseif (Auth::check() && Auth::user()->role === 'admin')
             <a href="{{ route('admin.dashboard') }}">Dashboard</a>
             <a href="{{ route('admin.users') }}">Users</a>
+        @elseif (Auth::check() && Auth::user()->role === 'manager')
+            <a href="{{ route('manager.dashboard') }}">Manager Dashboard</a>
         @endif
         @if (Auth::check())
             <a href="{{ route('profile.edit') }}">Profile</a>
