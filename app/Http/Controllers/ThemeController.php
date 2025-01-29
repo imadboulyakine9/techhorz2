@@ -17,13 +17,17 @@ class ThemeController extends Controller
         return view('themes.index', compact('themes'));
     }
     */
-    public function index()
+    public function managerDashboard()
     {
         $user = Auth::user();
         $theme = Theme::where('manager_id', $user->id)->first();
         return view('theme_manager.dashboard', compact('theme'));
     }
 
+    public function index(){
+        $themes = Theme::all();
+        return view('themes.index', compact('themes'));
+    }
     public function update(Request $request)
     {
         $theme = Theme::first(); // Assuming there's only one theme

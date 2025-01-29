@@ -46,6 +46,17 @@
         .card button:hover {
             background-color: #333;
         }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -53,6 +64,33 @@
     <div class="container">
         @foreach ($themes as $theme)
             <div class="card">
+                <div class="card-image">
+                    @switch($theme->id)
+                        @case(1)
+                            <img src="{{ asset('images/Development.jpg') }}" alt="Development">
+                            @break
+                        @case(2)
+                            <img src="{{ asset('images/Ai.jpg') }}" alt="AI">
+                            @break
+                        @case(3)
+                            <img src="{{ asset('images/IOT.jpg') }}" alt="IOT">
+                            @break
+                        @case(4)
+                            <img src="{{ asset('images/cyber.webp') }}" alt="Cyber">
+                            @break
+                        @case(5)
+                            <img src="{{ asset('images/virtual_int.png') }}" alt="VR">
+                            @break
+                        @case(6)
+                            <img src="{{ asset('images/cloud.webp') }}" alt="Cloud">
+                            @break
+                        @case(7)
+                            <img src="{{ asset('images/blockchain.avif') }}" alt="Blockchain">
+                            @break
+                        @default
+                            <img src="{{ asset('images/default.jpg') }}" alt="Default">
+                    @endswitch
+                </div>
                 <h2>{{ $theme->name }}</h2>
                 <p>{{ $theme->description }}</p>
                 <a href="{{ route('themes.articles', $theme->id) }}">View Articles</a>
