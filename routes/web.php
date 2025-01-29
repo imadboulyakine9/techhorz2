@@ -53,6 +53,21 @@ Route::middleware(['auth', CheckRole::class.':user'])->group(function () {
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 });
 
+Route::get('/' , function(){
+    $themes = \App\Models\Theme::all();
+    return view('welcome' , 
+    [
+        'themes' => $themes ,
+        'stats' => [
+            'users' => \App\Models\User::where('role', 'user')->count(),
+           'managers' => \App\Models\User::where('role', 'theme_manager')->count(),
+            'articles' => \App\Models\Article::count(),
+            'issues' => \App\Models\Issue::count(),
+            'themes' => \App\Models\Theme::count(),
+
+        ]
+    ]);
+}) -> name('welcome');
 /**   -------------------------------------------Admin routes----------------------------------*/ 
 Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(function () {
 
@@ -122,7 +137,7 @@ Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(f
     Route::get('/stats/articles', [StatsController::class, 'articles'])->name('admin.stats.articles'); */
 });
 
-/**   ---------------------------------------End of Admin routes----------------------------------*/ 
+/**   ------------------------------End of Admin routes----------------------------------*/ 
 Route::middleware(['auth', CheckRole::class.':theme_manager'])->group(function () {
     //Route::get('/theme-manager', [ThemeManagerController::class, 'index'])->name('theme_manager.dashboard');
 });
