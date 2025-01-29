@@ -19,12 +19,21 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
         }
+        body{
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background-image: url('/images/AdminDashboard.jpg');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;    
+        }
     </style>
 </head>
 <body>
     <x-navbar />
     <div class="container">
-        <h1>Admin Dashboard</h1>
+        <h1 style="color:#fff;">Admin Dashboard</h1>
         
         <div class="stats-grid">
             <div class="stat-card">

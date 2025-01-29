@@ -34,9 +34,10 @@ class ArticleController extends Controller
                 'article_id' => $id,
                 'viewed_at' => now(),
             ]);
-            $userRating = Rate::where('article_id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+            $userRating = Rate::where([
+                'article_id'=> $id,
+                'user_id'=> Auth::id()
+            ])->first();
         $userRating = $userRating ? $userRating->rating : null;
         }
 
