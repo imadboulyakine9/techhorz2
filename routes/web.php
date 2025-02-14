@@ -150,6 +150,11 @@ Route::middleware(['auth', CheckRole::class.':manager'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::post('/profile/picture', [ProfileController::class, 'updateProfilePicture'])->name('profile.picture');
+    Route::delete('/profile/picture', [ProfileController::class, 'removeProfilePicture'])->name('profile.picture.remove');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     /*Route::post('/subscribe/{theme_id}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
     Route::get('/subscriptions', [SubscriptionController::class, 'getSubscriptions'])->name('subscriptions');
     Route::get('/browsing-history', [BrowsingHistoryController::class, 'getHistory'])->name('browsingHistory.index');

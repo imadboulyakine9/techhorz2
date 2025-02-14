@@ -42,6 +42,7 @@
             <a href="{{ route('themes.index') }}">Themes</a>
             <a href="{{ route('studio') }}">Studio</a>
         @elseif (Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('issues.index') }}">Issues</a>
             <a href="{{ route('admin.dashboard') }}">Dashboard</a>
             <a href="{{ route('admin.users') }}">Users</a>
         @elseif (Auth::check() && Auth::user()->role === 'manager')
@@ -56,7 +57,7 @@
                 </a>
             </form>
         @else
-            <a href="{{ route('issues.index') }}">Issues</a>
+            
             <a href="{{ route('articles.index') }}">Articles</a>
             <a href="{{ route('themes.index') }}">Themes</a>
             <a href="{{ route('login') }}">Login</a>

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'role', // Add this line
         'is_blocked',
+        'profile_picture',
     ];
 
     /**
