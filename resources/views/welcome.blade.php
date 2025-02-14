@@ -26,8 +26,9 @@
         }
         .theme-slide {
             min-width: 100%;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;;
             position: relative;
+            opacity:0.7;
         }
         .theme-slide img {
             width: 100%;
@@ -255,8 +256,8 @@
             showSlide(currentSlide);
         }
 
-        // Auto slide change every 5 seconds
-        setInterval(nextSlide, 5000);
+        // Auto slide change every 1.5 seconds
+        setInterval(nextSlide, 1500);
 
         // Initialize the first slide
         showSlide(currentSlide);

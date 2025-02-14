@@ -122,8 +122,12 @@ class ArticleController extends Controller
     public function getUserArticles()
     {
         $userId = Auth::id();
-        $articles = Article::where('author_id', $userId)->get();
-        return view('studio', compact('articles'));
+        $articles = Article::where('author_id', $userId)
+        ->with('theme')  // Eager load the theme relationship
+        ->orderBy('created_at', 'desc')
+        ->get();
+        $themes = Theme::all();  // Get all themes for the dropdown
+        return view('studio', compact('articles', 'themes'));
     }
     public function getRecommendedArticles()
 {
@@ -146,5 +150,16 @@ class ArticleController extends Controller
     $recommendedArticles = $browsingHistoryArticles->merge($subscriptionArticles)->unique('id');
 
     return view('foryou', compact('recommendedArticles'));
+}
+
+public function getThemeArticles($theme_id)
+{
+    $theme = Theme::findOrFail($theme_id);
+    $articles = Article::where('theme_id', $theme_id)
+                      ->with(['author'])
+                      ->orderBy('created_at', 'desc')
+                      ->get();
+
+    return view('themes.articles', compact('theme', 'articles'));
 }
 }

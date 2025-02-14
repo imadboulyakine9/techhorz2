@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Theme::class, 'manager_id');
     }
+
+    public function articles()
+{
+    return $this->hasMany(Article::class, 'author_id');
+}
 }

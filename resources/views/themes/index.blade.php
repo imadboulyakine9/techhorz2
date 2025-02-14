@@ -11,6 +11,7 @@
             color: #333;
             margin: 0;
             padding: 20px;
+            background:linear-gradient(to bottom, #1a1f71 , #E1EBEE  , #5D8AA8 , #004170);
         }
         .container {
             max-width: 1200px;
@@ -35,17 +36,40 @@
         .card p {
             color: #666;
         }
-        .card button {
+        /* .subscribe-button {
             padding: 10px 15px;
             background-color: #000000; /* Black from the palette */
-            color: #F4DFC8; /* Text color from the palette */
+            /*color: #F4DFC8; /* Text color from the palette */
+            /*border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        } */
+        .subscribe-button {
+            padding: 10px 15px;
+            color: #F0F8FF; 
+            font-weight:bold;
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
-        .card button:hover {
-            background-color: #333;
+
+        .subscribe-button.subscribed {
+            background-color: #dc3545; /* Red for unsubscribe */
         }
+
+        .subscribe-button.not-subscribed {
+            background-color: #28a745; /* Green for subscribe */
+        }
+
+        .subscribe-button:hover.subscribed {
+            background-color: #c82333;
+        }
+
+        .subscribe-button:hover.not-subscribed {
+            background-color: #218838;
+        }
+
 
         .card-image {
             width: 100%;
@@ -57,10 +81,38 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .button-link {
+            display: block;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button-link a {
+            display: inline-block;
+            min-width: 30px;
+            padding: 12px 24px;
+            background-color: #7B68EE;
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .button-link:hover a {
+            background-color: #CCCCFF;
+        }
+
+
     </style>
 </head>
 <body>
     <x-navbar />
+    <br>
     <div class="container">
         @foreach ($themes as $theme)
             <div class="card">
@@ -93,18 +145,25 @@
                 </div>
                 <h2>{{ $theme->name }}</h2>
                 <p>{{ $theme->description }}</p>
+                <br>
+
+                <button class="button-link">
                 <a href="{{ route('themes.articles', $theme->id) }}">View Articles</a>
-                
+                </button>
+
+                <br>
                 @auth
-                    @if (Auth::user()->role === 'user')
-                        @php
-                            $isSubscribed = Auth::user()->subscriptions ? Auth::user()->subscriptions->contains('theme_id', $theme->id) : false;
-                        @endphp
-                        <form method="POST" action="{{ $isSubscribed ? route('themes.unsubscribe', $theme->id) : route('themes.subscribe', $theme->id) }}">
-                            @csrf
-                            <button type="submit">{{ $isSubscribed ? 'Unsubscribe' : 'Subscribe' }}</button>
-                        </form>
-                    @endif
+                @if (Auth::user()->role === 'user')
+                    @php
+                        $isSubscribed = Auth::user()->subscriptions ? Auth::user()->subscriptions->contains('theme_id', $theme->id) : false;
+                    @endphp
+                    <form method="POST" action="{{ $isSubscribed ? route('themes.unsubscribe', $theme->id) : route('themes.subscribe', $theme->id) }}">
+                        @csrf
+                        <button type="submit" class="subscribe-button {{ $isSubscribed ? 'subscribed' : 'not-subscribed' }}">
+                            {{ $isSubscribed ? 'Unsubscribe' : 'Subscribe' }}
+                        </button>
+                    </form>
+                @endif
                 @endauth
             </div>
         @endforeach

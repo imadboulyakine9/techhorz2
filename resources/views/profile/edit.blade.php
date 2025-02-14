@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8fafc;
+            background: linear-gradient(to bottom, #B0C4DE , #0a2351);
             color: #333;
             margin: 0;
             padding: 20px;
@@ -75,7 +75,6 @@
             object-fit: cover;
             border-radius: 50%;
             margin-bottom: 15px;
-            border: 2px solid #007bff;
         }
     </style>
 </head>
