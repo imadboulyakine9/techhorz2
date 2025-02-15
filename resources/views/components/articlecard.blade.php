@@ -44,4 +44,10 @@
     .card .btn:hover {
         background-color: #0056b3;
     }
+
+    body{
+        background: rgb(176,196,222);
+        background: linear-gradient(90deg, rgba(176,196,222,1) 0%, rgba(84,90,167,1) 35%, rgba(76,81,109,1) 100%);
+
+    }
 </style>

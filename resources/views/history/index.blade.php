@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            background-color:#6082B6;
             color: #333;
             margin: 0;
             padding: 20px;
@@ -58,6 +58,7 @@
 </head>
 <body>
     <x-navbar />
+    <br>
     <div class="container">
         <h1>Browsing History</h1>
         <div class="search-bar">
