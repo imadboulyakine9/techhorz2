@@ -16,11 +16,17 @@ class Article extends Model
         'theme_id',
         'image_url',
         'is_published',
+        'status' 
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
     ];
+
+    // Add status constants
+    const STATUS_PENDING = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'rejected';
 
     public function author()
     {
@@ -38,11 +44,16 @@ class Article extends Model
     }
     
     public function issue()
-{
-    return $this->belongsTo(Issue::class);
-}
-public function ratings()
-{
-    return $this->hasMany(Rate::class);
-}
+    {
+        return $this->belongsTo(Issue::class);
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 }
