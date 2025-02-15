@@ -11,6 +11,11 @@
         .btn { padding: 5px 10px; border-radius: 4px; cursor: pointer; }
         .btn-block { background-color: #dc3545; color: white; }
         .btn-unblock { background-color: #28a745; color: white; }
+
+        body{
+            background: rgb(224,255,255);
+            background: linear-gradient(326deg, rgba(224,255,255,1) 2%, rgba(173,216,230,1) 11%, rgba(93,138,168,1) 52%, rgba(42,127,186,1) 100%);
+        }
     </style>
 </head>
 <body>
@@ -49,15 +54,7 @@
                     </td>
                     <td>{{ $user->is_blocked ? 'Blocked' : 'Active' }}</td>
                     <td class="actions">
-                        @if($user->role !== 'admin')
-                    <form action="{{ route('admin.users.role', $user->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <select name="role" onchange="this.form.submit()">
-                            <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
-                            <option value="manager" {{ $user->role === 'manager' ? 'selected' : '' }}>Theme Manager</option>
-                        </select>
-                    </form>
+                        
 
                     @if($user->is_blocked)
                         <form action="{{ route('admin.users.unblock', $user->id) }}" method="POST">
@@ -73,9 +70,7 @@
                         </form>
                     @endif
 
-                    @else
-                    <span> Admin user </span>
-                    @endif
+                    
                 </td>
                 </tr>
                 @endforeach

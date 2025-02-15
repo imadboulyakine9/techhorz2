@@ -116,7 +116,6 @@ Route::middleware(['auth', CheckRole::class.':admin'])->prefix('admin')->group(f
 
     // Issues management
     Route::get('/issues', [IssueController::class, 'index'])->name('admin.issues.index');
-
 /*     Route::put('/users/{user}/block', [UserController::class, 'block'])->name('admin.users.block');
     Route::put('/users/{user}/unblock', [UserController::class, 'unblock'])->name('admin.users.unblock');
     Route::put('/users/{user}/role', [UserController::class, 'updateRole'])->name('admin.users.role');
