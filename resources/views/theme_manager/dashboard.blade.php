@@ -91,6 +91,53 @@
         .form-group button:hover {
             background-color: #0056b3;
         }
+        .pending-articles {
+            margin-top: 20px;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-approve {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .status-pending {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .status-approved {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-rejected {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -106,19 +153,77 @@
             </form>
         </div>
     </div>
+
     <div class="sidebar">
         <h2>Menu</h2>
-        <a href="#">Dashboard</a>
-        <a href="#">Manage Theme</a>
-        <a href="#">Articles</a>
-        <a href="#">Statistics</a>
+        <a href="#pending">Pending Articles</a>
+        <a href="#theme">Manage Theme</a>
+        <a href="#articles">All Articles</a>
+        <a href="#statistics">Statistics</a>
     </div>
+
     <div class="container">
-        @if($theme)
-            <div class="card">
-                <h2>Theme Details</h2>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <!-- Pending Articles Section -->
+        <div class="card" id="pending">
+            <h2>Pending Articles</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Theme</th>
+                        <th>Submitted Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($pendingArticles as $article)
+                        <tr>
+                            <td>{{ $article->title }}</td>
+                            <td>{{ $article->author->name }}</td>
+                            <td>{{ $article->theme->name }}</td>
+                            <td>{{ $article->created_at->format('M d, Y') }}</td>
+                            <td class="article-actions">
+                                <form action="{{ route('manager.review', $article->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="action" value="approve">
+                                    <button type="submit" class="btn-approve">Approve</button>
+                                </form>
+                                <form action="{{ route('manager.review', $article->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="action" value="reject">
+                                    <button type="submit" class="btn-reject">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">No pending articles to review.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Theme Management Section -->
+        @foreach($managedThemes as $theme)
+            <div class="card" id="theme">
+                <h2>Theme Details: {{ $theme->name }}</h2>
                 <form method="POST" action="{{ route('manager.update') }}">
                     @csrf
+                    <input type="hidden" name="theme_id" value="{{ $theme->id }}">
                     <div class="form-group">
                         <label for="theme-name">Theme Name</label>
                         <input type="text" id="theme-name" name="name" value="{{ $theme->name }}">
@@ -132,40 +237,50 @@
                     </div>
                 </form>
             </div>
-            <div class="card">
-                <h2>Articles</h2>
+
+            <!-- All Articles Section -->
+            <div class="card" id="articles">
+                <h2>All Articles</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Title</th>
                             <th>Author</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($theme->articles as $article)
+                        @forelse ($theme->articles as $article)
                             <tr>
                                 <td>{{ $article->title }}</td>
                                 <td>{{ $article->author->name }}</td>
-                                <td>{{ $article->is_published ? 'Published' : 'Unpublished' }}</td>
                                 <td>
-                                    <a href="#">Edit</a>
-                                    <a href="#">Delete</a>
+                                    <span class="status-badge status-{{ $article->status }}">
+                                        {{ ucfirst($article->status) }}
+                                    </span>
                                 </td>
+                                <td>{{ $article->created_at->format('M d, Y') }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4">No articles found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
-            <div class="card">
-                <h2>Statistics</h2>
-                <p>Number of Articles: {{ $theme->articles->count() }}</p>
+
+            <!-- Statistics Section -->
+            <div class="card" id="statistics">
+                <h2>Theme Statistics</h2>
+                <p>Total Articles: {{ $theme->articles->count() }}</p>
+                <p>Pending Articles: {{ $theme->articles->where('status', 'pending')->count() }}</p>
+                <p>Published Articles: {{ $theme->articles->where('status', 'approved')->count() }}</p>
+                <p>Rejected Articles: {{ $theme->articles->where('status', 'rejected')->count() }}</p>
                 <p>Number of Subscribers: {{ $theme->subscriptions->count() }}</p>
             </div>
-        @else
-            <p>No theme assigned to you.</p>
-        @endif
+        @endforeach
     </div>
 </body>
 </html>
