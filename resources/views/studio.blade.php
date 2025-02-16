@@ -166,7 +166,7 @@
                         <h3>{{ $article->title }}
                             @if($article->is_published)
                                 <span class="status-badge status-published">Published</span>
-                            @elseif($article->is_rejected)
+                            @elseif($article->status === 'rejected' || $article->is_rejected)
                                 <span class="status-badge status-rejected">Rejected</span>
                             @else
                                 <span class="status-badge status-pending">Pending Review</span>

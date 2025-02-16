@@ -1,11 +1,14 @@
 <!-- filepath: /home/imad/Projects/PHP/project1/techhorz2/resources/views/components/articlecard.blade.php -->
-<div class="card">
-    @if ($article->image_url)
-        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="responsive-image">
-    @endif
-    <h2>{{ $article->title }}</h2>
-    <a href="{{ route('articles.show', $article->id) }}" class="btn">See more</a>
-</div>
+
+@if(!$article->is_rejected && $article->status !== 'rejected')
+    <div class="card">
+        @if ($article->image_url)
+            <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="responsive-image">
+        @endif
+        <h2>{{ $article->title }}</h2>
+        <a href="{{ route('articles.show', $article->id) }}" class="btn">See more</a>
+    </div>
+@endif
 
 <style>
     .card {

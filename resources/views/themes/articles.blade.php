@@ -134,7 +134,7 @@
                         Created: {{ $userArticle->created_at->format('M d, Y') }}
                         @if($userArticle->is_published)
                             <span class="status-badge status-published">Published</span>
-                        @elseif($userArticle->is_rejected)
+                        @elseif($userArticle->status === 'rejected' || $userArticle->is_rejected)
                             <span class="status-badge status-rejected">Rejected</span>
                         @else
                             <span class="status-badge status-pending">Pending Review</span>
