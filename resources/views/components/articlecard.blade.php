@@ -1,6 +1,6 @@
 <!-- filepath: /home/imad/Projects/PHP/project1/techhorz2/resources/views/components/articlecard.blade.php -->
 
-@if(!$article->is_rejected && $article->status !== 'rejected')
+@if(!$article->is_rejected && $article->status !== 'rejected' && $article->status !== 'pending')
     <div class="card">
         @if ($article->image_url)
             <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="responsive-image">
